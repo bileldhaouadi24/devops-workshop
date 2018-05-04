@@ -1,0 +1,25 @@
+---
+- hosts: test
+  become: true
+
+  tasks:
+  - name: Create new file
+    file:
+      path: "jfjf/f"
+      state: touch
+      #owner:
+      #group:
+      #mode: 0* 
+
+  - name: Add new line
+    lineinfile:
+      path: tbd
+      line: 'New entry!'
+
+  - name: Add a paragraph
+    blockinfile:
+      path: tbd
+      block: |
+        AuthName "Restricted Access"
+        AuthType Basic
+        require valid-user 

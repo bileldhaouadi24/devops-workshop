@@ -1,0 +1,62 @@
+---
+- name: Add MySql gpg key
+  apt_key: 
+    url: http://repo.mysql.com/RPM-GPG-KEY-mysql
+
+- name: Add MySQL Server repository
+  apt_repository: 
+    repo: deb http://repo.mysql.com/apt/debian/ jessie mysql-5.6
+    update_cache: yes
+
+- name: Install MySql5.6 packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - "mysql-server"
+    - "mysql-client"
+    - "mysql-common"
+
+- name: Install MySQL-python for Ansible
+  apt: 
+    name: python-mysqldb 
+    state: latest
+
+- name: Deploy .my.cnf file with root credentials
+  template: 
+    src: my.cnf.j2 
+    dest: ~/.my.cnf 
+    mode: 0600
+
+- name: Update root password for all accounts
+  mysql_user:
+    name: root 
+    password: "{{ mysql_root_password }}"
+    host: "{{ item }}" 
+    check_implicit_admin: yes
+  with_items:
+    - localhost
+    - 127.0.0.1
+    - ::1
+
+- name: Delete anonymous users
+  mysql_user: 
+    name: '' 
+    state: absent 
+    host_all: yes
+
+- name: Import mysql_remove_remote_root
+  copy: 
+    src: 'mysql_remove_remote_root.sql' 
+    dest: '/tmp/mysql_remove_remote_root.sql'
+
+- name: Apply mysql_remove_remote_root
+  mysql_db: 
+    name: 'mysql' 
+    state: import 
+    target: '/tmp/mysql_remove_remote_root.sql'
+
+- name: Delete 'test' database
+  mysql_db: 
+    name: 'test' 
+    state: absent 

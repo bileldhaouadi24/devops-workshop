@@ -1,0 +1,15 @@
+<VirtualHost *:80>
+
+    ServerAdmin dev@bulldozerinc.com
+    ServerName {{ phpmyadmin_domain }}
+
+    DocumentRoot /usr/share/phpmyadmin
+
+        <Directory /usr/share/phpmyadmin>
+            Require all granted
+        </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/phpmyadmin-error.log
+    CustomLog ${APACHE_LOG_DIR}/phpmyadmin-access.log combined
+
+</VirtualHost>

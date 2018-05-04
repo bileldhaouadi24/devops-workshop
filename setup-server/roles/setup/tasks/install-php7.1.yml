@@ -1,0 +1,38 @@
+---                   
+- name: Add Php gpg key
+  apt_key:
+    url: https://packages.sury.org/php/apt.gpg
+    keyring: /etc/apt/trusted.gpg.d/php.gpg
+
+- name: Add Php repository
+  apt_repository:
+    repo: deb https://packages.sury.org/php/ jessie main
+    filename: 'php'
+    update_cache: yes
+
+- name: Install Php 7.1 and its extensions
+  apt:
+    name: "{{item}}"
+    state: latest
+  with_items:
+    - "php7.1-cli"
+    - "php7.1-dev"
+    - "libapache2-mod-php7.1"
+    - "php7.1-mysql"
+    - "php7.1-pgsql"
+    - "php7.1-sqlite3"
+    - "php7.1-gd"
+    - "php7.1-curl"
+    - "php7.1-memcached"
+    - "php7.1-imap"
+    - "php7.1-mbstring"
+    - "php7.1-xml"
+    - "php7.1-bz2"
+    - "php7.1-zip"
+    - "php7.1-bcmath"
+    - "php7.1-soap"
+    - "php7.1-intl"
+    - "php7.1-mcrypt"
+    - "php7.1-readline"
+  notify: 
+  - Restart Apache

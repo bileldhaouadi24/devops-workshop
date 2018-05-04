@@ -1,0 +1,29 @@
+---
+- name: Install phpMyAdmin
+  apt: 
+    name: phpmyadmin 
+    state: latest
+
+- name: Import phpMyAdmin dump database
+  copy: 
+    src: 'create_tables.sql' 
+    dest: '/tmp/create_tables.sql'
+
+- name: Create phpMyAdmin database
+  mysql_db: 
+    name: 'phpmyadmin' 
+    state: import 
+    target: '/tmp/create_tables.sql'
+
+# - name: Reconfigure phpMyAdmin controluser
+#   command: dpkg-reconfigure phpmyadmin
+  
+- name: Create phpMyAdmin vhost
+  template: 
+    src: phpmyadmin.conf.j2 
+    dest: /etc/apache2/sites-available/phpmyadmin.conf
+
+- name: Enable phpMyAdmin vhost
+  command: a2ensite phpmyadmin
+  notify:
+  - Restart Apache

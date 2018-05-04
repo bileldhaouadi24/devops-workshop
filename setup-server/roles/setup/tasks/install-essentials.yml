@@ -1,0 +1,16 @@
+---
+- name: Install Https transport for Apt
+  apt:
+    name: apt-transport-https
+    state: latest
+    update_cache: yes
+
+- name: Install Ca-Certificates
+  apt:
+    name: ca-certificates
+    state: latest
+
+- name: Install Git
+  apt:
+    name: git 
+    state: latest

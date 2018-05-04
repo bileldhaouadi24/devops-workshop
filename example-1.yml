@@ -1,0 +1,19 @@
+---
+- hosts: test
+  become: true
+
+  tasks:
+  - name: Display message
+    debug:
+      msg: "Welcome"
+
+  - name: Create new user
+    user:
+      name: bulldozer
+      password: workshop | password_hash('sha512')
+      shell: /bin/bash
+
+  - name: Install Git
+    apt:
+      name: git
+      state: latest
