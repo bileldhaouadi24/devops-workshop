@@ -1,0 +1,19 @@
+---
+- name: Add NodeJs gpg key
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    keyring: /etc/apt/trusted.gpg.d/nodejs.gpg
+
+- name: Add NodeJs repositories
+  apt_repository:
+    repo: "{{item}}" 
+    filename: 'nodejs'
+  with_items:
+    - "deb https://deb.nodesource.com/node_8.x stretch main"
+    - "deb-src https://deb.nodesource.com/node_8.x stretch main"
+
+- name: Install NodeJs
+  apt:
+    name: nodejs
+    state: latest
+    update_cache: yes

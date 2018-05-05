@@ -1,0 +1,6 @@
+---
+pid: demo
+shellpwd: XYxQNwa3bz
+dname: demo.devops.dev.com
+basedir: /home/{{ pid }}/{{ dname }}
+prepo: https://github.com/bileldhaouadi24/Laravel-devops-workshop.git

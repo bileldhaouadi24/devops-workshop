@@ -31,7 +31,7 @@
 - name: Update root password for all accounts
   mysql_user:
     name: root 
-    password: "{{ mysql_root_password }}"
+    password: rootdbpwd
     host: "{{ item }}" 
     check_implicit_admin: yes
   with_items:
@@ -49,12 +49,6 @@
   copy: 
     src: 'mysql_remove_remote_root.sql' 
     dest: '/tmp/mysql_remove_remote_root.sql'
-
-- name: Apply mysql_remove_remote_root
-  mysql_db: 
-    name: 'mysql' 
-    state: import 
-    target: '/tmp/mysql_remove_remote_root.sql'
 
 - name: Delete 'test' database
   mysql_db: 

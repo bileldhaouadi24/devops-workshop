@@ -1,0 +1,57 @@
+---
+- block:
+  - name: Create Shell user '{{ pid }}'
+    user:
+      name: "{{ pid }}"
+      password: "{{ shellpwd | password_hash('sha512') }}"
+      shell: /bin/bash
+      groups: www-data
+      append: yes
+
+  - import_tasks: setup-vhost.yml
+  become: true
+
+- block:
+  - name: Create the project directory
+    file: 
+      path: "{{ basedir }}"
+      state: directory
+
+  - name: Clone the project
+    git:
+      repo: "{{ prepo }}"
+      dest: "{{ basedir }}"
+      version: master
+
+  - name: Composer install
+    composer:
+      command: install
+      working_dir: "{{ basedir }}"
+
+  - name: Upload configured '.env'
+    template: 
+      src: .env.conf.j2 
+      dest: "{{ basedir }}/.env"
+
+  - name: Generate artisan key 
+    command: php artisan key:generate
+    args:
+      chdir: "{{ basedir }}/"
+
+  - name: Npm install
+    npm:
+      path: "{{ basedir }}"
+
+  - name: Compile static files
+    shell: npm run dev
+    args:
+      chdir: "{{ basedir }}/"
+
+  - name: Configure permissions
+    file:
+      path: "{{ basedir }}/"
+      group: www-data
+      mode: 0775
+      recurse: yes
+  become: true
+  become_user: "{{ pid }}"

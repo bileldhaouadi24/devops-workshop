@@ -5,7 +5,7 @@
   tasks:
   - name: Display message
     debug:
-      msg: "Welcome"
+      msg: "Welcome to Ansible world!"
 
   - name: Create new user
     user:

@@ -1,0 +1,10 @@
+---
+- name: Create '{{ dname }}' vhost
+  template: 
+    src: vhost.conf.j2 
+    dest: /etc/apache2/sites-available/{{ dname }}.conf
+
+- name: Enable '{{ dname }}' vhost
+  command: a2ensite {{ dname }}
+  notify:
+  - Restart Apache

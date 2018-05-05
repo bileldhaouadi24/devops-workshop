@@ -1,24 +1,8 @@
 ---
-- name: Includ OS-Specefic variables
-  include_vars:
-    file: debian{{ ansible_distribution_major_version}}.yml
-
-# - import_tasks: install-essentials.yml
-
-# - import_tasks: install-apache2.yml
+- import_tasks: install-apache2.yml
 
 - import_tasks: install-php7.1.yml
 
-- import_tasks: install-mysql5.6.yml
+- import_tasks: install-nodejs.yml
 
-- import_tasks: install-phpmyadmin.yml
-
-# - import_tasks: install-composer.yml
-
-# - import_tasks: install-nodejs.yml
-
-# - import_tasks: install-yarn.yml
-
-# - import_tasks: install-required-nodejs-packs.yml
-
-# - import_tasks: install-supervisor.yml
+- import_tasks: install-composer.yml

@@ -1,0 +1,22 @@
+<VirtualHost *:80>
+   ServerName {{ dname }}
+   ServerAdmin dev@bulldozerinc.com
+
+   DocumentRoot {{ basedir }}/public/
+     
+   <Directory {{ basedir }}/public/>
+            Options Indexes FollowSymLinks MultiViews
+            AllowOverride All
+            Order allow,deny
+            allow from all
+            Require all granted
+   </Directory>
+
+   # Possible values include: debug, info, notice, warn, error, crit,
+   # alert, emerg.
+
+   LogLevel warn
+   ErrorLog ${APACHE_LOG_DIR}/{{ dname }}-error.log
+   CustomLog ${APACHE_LOG_DIR}/{{ dname }}-access.log combined
+ 
+</VirtualHost>
