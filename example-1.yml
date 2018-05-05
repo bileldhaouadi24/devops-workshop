@@ -1,5 +1,5 @@
 ---
-- hosts: test
+- hosts: DevOps
   become: true
 
   tasks:

@@ -1,11 +1,11 @@
 ---
-- hosts: test
+- hosts: DevOps
   become: true
 
   tasks:
   - name: Create new file
     file:
-      path: "jfjf/f"
+      path: /home/bulldozer/ansible_file.txt
       state: touch
       #owner:
       #group:
@@ -13,12 +13,12 @@
 
   - name: Add new line
     lineinfile:
-      path: tbd
-      line: 'New entry!'
+      path: /home/bulldozer/ansible_file.txt
+      line: 'Hi, it's my first Ansible entry!'
 
   - name: Add a paragraph
     blockinfile:
-      path: tbd
+      path: /home/bulldozer/ansible_file.txt
       block: |
         AuthName "Restricted Access"
         AuthType Basic
